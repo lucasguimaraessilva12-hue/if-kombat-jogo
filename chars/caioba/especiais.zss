@@ -1,0 +1,91 @@
+#===============================================================================
+# Caioba - specials (animations in scripts/molde.py, ESPECIAIS["caioba"])
+#===============================================================================
+
+#-------------------------------------------------------------------------------
+# SO-SO-SOCO! (tras, frente + soco baixo): winds up twice and gives up (stutter),
+# then punches the ground: the screen shakes and everyone standing on the ground
+# within reach falls. Unblockable, but jumping avoids it (no air in hitflag).
+[StateDef 1050; type: S; movetype: A; physics: S; ctrl: 0; velset: 0, 0; anim: 1050; sprpriority: 2;]
+
+if animElem = 6 {
+	envShake{time: 20; ampl: 6; freq: 160}
+	hitDef{
+		attr: S, SA;
+		damage: 60, 0;
+		animtype: Hard;
+		hitflag: M;
+		priority: 4, Hit;
+		pausetime: 8, 16;
+		sparkno: -1;
+		sparkxy: 0, 0;
+		hitsound: 5, 2;
+		ground.type: Trip;
+		ground.slidetime: 8;
+		ground.hittime: 16;
+		ground.velocity: -3, -2;
+		air.velocity: -3, -3;
+		air.hittime: 15;
+		fall: 1;
+		fall.recover: 0;
+	}
+}
+if animTime = 0 {
+	changeState{value: 0; ctrl: 1}
+}
+
+#-------------------------------------------------------------------------------
+# ZUMBA GIRATORIA (baixo, frente + chute alto): dancing spin, 4 hits,
+# the last one knocks down. The spin is drawn with the .air flip flag.
+[StateDef 1070; type: S; movetype: A; physics: N; juggle: 4; ctrl: 0; velset: 0, 0; anim: 1070; sprpriority: 2;]
+
+if animElemNo(0) < 9 {
+	velSet{x: 1.8}
+} else {
+	velSet{x: 0}
+}
+if animElem = 2 || animElem = 4 || animElem = 6 {
+	hitDef{
+		attr: S, SA;
+		damage: 25, 3;
+		animtype: Medium;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 5, 8;
+		sparkxy: -10, -85;
+		hitsound: 5, 0;
+		guardsound: 6, 0;
+		ground.type: High;
+		ground.slidetime: 6;
+		ground.hittime: 14;
+		ground.velocity: -1.5, 0;
+		air.velocity: -1.5, -3;
+		air.hittime: 15;
+	}
+}
+if animElem = 8 {
+	hitDef{
+		attr: S, SA;
+		damage: 40, 5;
+		animtype: Back;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 10, 10;
+		sparkxy: -10, -85;
+		hitsound: 5, 2;
+		guardsound: 6, 0;
+		ground.type: High;
+		ground.slidetime: 8;
+		ground.hittime: 16;
+		ground.velocity: -6, -4;
+		air.velocity: -5, -4;
+		air.hittime: 15;
+		fall: 1;
+		fall.recover: 0;
+	}
+}
+if animTime = 0 {
+	changeState{value: 0; ctrl: 1}
+}

@@ -1,0 +1,20 @@
+<#f0f000>:Botões:</>
+<#ffd040>Soco Alto</> T / 4    <#60d0ff>Chute Alto</> Y / 5
+<#ffd040>Soco Baixo</> G / 1    <#60d0ff>Chute Baixo</> H / 2
+<#bebebe>(P1 / P2 no teclado numérico)</>
+
+<#f0f000>:Especiais:</>
+Marmita Bumerangue						_B_F <#ffd040>Soco Alto</>
+Enxadada						_F_F <#ffd040>Soco Baixo</>
+
+<#f0f000>:Golpes de todos:</>
+Uppercut						_D_+ <#ffd040>Soco Alto</>
+Soco agachado						_D_+ <#ffd040>Soco Baixo</>
+Chute agachado						_D_+ <#60d0ff>Chute Alto</>
+Chute no tornozelo						_D_+ <#60d0ff>Chute Baixo</>
+Chute giratório						_B_+ <#60d0ff>Chute Alto</>
+Rasteira						_B_+ <#60d0ff>Chute Baixo</>
+Arremesso <#bebebe>(de perto)</>						<#ffd040>Soco Baixo</>
+Golpe de perto <#bebebe>(de perto)</>						<#ffd040>Soco Alto</>
+Joelhada <#bebebe>(de perto)</>						<#60d0ff>Chute</>
+Defesa						~B <#bebebe>(agachado:</> ~DB<#bebebe>)</>

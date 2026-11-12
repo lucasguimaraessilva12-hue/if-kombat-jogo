@@ -1,0 +1,71 @@
+# IF Kombat prototype: dedicated block button (arcade-style)
+# - Holding "back" only walks backwards; it never guards.
+# - Holding the block button ("blk") puts the fighter in guard pose,
+#   with or without an incoming attack, until the button is released.
+# - Overrides the common guard states 120, 130, 131 and 132.
+
+#-------------------------------------------------------------------------------
+[Function IFK_HiLo()]
+if command = "holddown" {
+	if stateType = S {
+		stateTypeSet{statetype: C; physics: C}
+	}
+} else if stateType = C {
+	stateTypeSet{statetype: S; physics: S}
+}
+
+#-------------------------------------------------------------------------------
+[Function IFK_StopGuarding()]
+if command != "blk" {
+	changeState{value: 140}
+}
+
+#-------------------------------------------------------------------------------
+# GUARD (start)
+[StateDef 120; type: U; physics: U;]
+
+call IFK_HiLo();
+if time = 0 {
+	changeAnim{value: 120 + (stateType = C) + (stateType = A) * 2}
+	if stateType = S {
+		stateTypeSet{physics: S}
+	} else if stateType = C {
+		stateTypeSet{physics: C}
+	} else if stateType = A {
+		stateTypeSet{physics: A}
+	}
+}
+if animTime = 0 {
+	changeState{value: 130 + (stateType = C) + (stateType = A) * 2}
+}
+call IFK_StopGuarding();
+
+#-------------------------------------------------------------------------------
+# Stand guard (guarding)
+[StateDef 130; type: S; physics: S;]
+
+if anim != 130 {
+	changeAnim{value: 130}
+}
+if command = "holddown" {
+	changeState{value: 131}
+}
+call IFK_StopGuarding();
+
+#-------------------------------------------------------------------------------
+# Crouch guard (guarding)
+[StateDef 131; type: C; physics: C;]
+
+if anim != 131 {
+	changeAnim{value: 131}
+}
+if command != "holddown" {
+	changeState{value: 130}
+}
+call IFK_StopGuarding();
+
+#-------------------------------------------------------------------------------
+# Air guard: not used (no blocking in the air), leave it at once.
+[StateDef 132; type: A; physics: A;]
+
+changeState{value: 50; ctrl: 1}

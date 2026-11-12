@@ -1,0 +1,69 @@
+; IF Kombat - Refeitório (scripts/cenarios.py, from cenarios/originais/refeitorio.png)
+[Info]
+name = "IFK Refeitório"
+displayname = "Refeitório"
+versiondate = 11,10,2026
+mugenversion = 1.0
+author = "IF Kombat"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -17
+boundright = 17
+boundhigh = -20
+boundlow = 0
+verticalfollow = .2
+floortension = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1facing = 1
+p2startx = 70
+p2starty = 0
+p2facing = -1
+p3startx = -110
+p3starty = 0
+p3facing = 1
+p4startx = 110
+p4starty = 0
+p4facing = -1
+leftbound = -1000
+rightbound = 1000
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 205
+autoturn = 1
+resetBG = 1
+localcoord = 320, 240
+xscale = 1
+yscale = 1
+
+[Shadow]
+intensity = 96
+color = 0,0,0
+yscale = .3
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic =
+
+[BGdef]
+spr = ifk_refeitorio.sff
+debugbg = 0
+
+[BG Fundo]
+type = normal
+spriteno = 0, 0
+layerno = 0
+start = 0, -20
+delta = 1, 1
+mask = 0

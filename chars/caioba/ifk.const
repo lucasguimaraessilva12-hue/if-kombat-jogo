@@ -1,0 +1,71 @@
+; IF Kombat - molde: constants (numbers to tune in Fase 10)
+
+[Data]
+life = 1000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 50
+airjuggle = 10        ; low: few hits in the air (estudo-mk2.md section 4)
+sparkno = 2           ; system hit spark (fightfx)
+guard.sparkno = 40    ; system guard spark (fightfx)
+KO.echo = 0
+volume = 0
+IntPersistIndex = 60
+FloatPersistIndex = 40
+
+[Size]
+xscale = 1
+yscale = 1
+ground.back = 15
+ground.front = 16
+air.back = 12
+air.front = 12
+height = 70
+attack.dist = 160
+proj.attack.dist = 90
+proj.doscale = 0
+head.pos = -5, -100
+mid.pos = -5, -65
+shadowoffset = 0
+draw.offset = 0,0
+
+[Velocity]
+walk.fwd  = 2.2
+walk.back = -2.0
+run.fwd  = 4.6, 0
+run.back = -4.5,-3.8
+jump.neu = 0,-9.6     ; high, fast jump
+jump.back = -2.8
+jump.fwd = 2.8
+runjump.back = -2.8,-9.6
+runjump.fwd = 4,-9.6
+airjump.neu = 0,-8.1
+airjump.back = -2.55
+airjump.fwd = 2.5
+air.gethit.groundrecover = -.15,-3.5
+air.gethit.airrecover.mul = .5,.2
+air.gethit.airrecover.add = 0,-4.5
+air.gethit.airrecover.back = -1
+air.gethit.airrecover.fwd = 0
+air.gethit.airrecover.up = -2
+air.gethit.airrecover.down = 1.5
+
+[Movement]
+airjump.num = 0       ; no double jump
+airjump.height = 35
+yaccel = .5
+stand.friction = .85
+crouch.friction = .82
+stand.friction.threshold = 2
+crouch.friction.threshold = .05
+air.gethit.groundlevel = 25
+air.gethit.groundrecover.ground.threshold = -20
+air.gethit.groundrecover.groundlevel = 10
+air.gethit.airrecover.threshold = -1
+air.gethit.airrecover.yaccel = .35
+air.gethit.trip.groundlevel = 15
+down.bounce.offset = 0, 20
+down.bounce.yaccel = .4
+down.bounce.groundlevel = 12
+down.friction.threshold = .05

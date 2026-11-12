@@ -1,0 +1,83 @@
+#===============================================================================
+# Vitchocas - specials (animations in scripts/molde.py, ESPECIAIS["vitchocas"])
+#===============================================================================
+
+#-------------------------------------------------------------------------------
+# CARRINHO DE ZAGUEIRO (tras, frente + chute baixo): low sliding tackle, trips.
+[StateDef 1020; type: S; movetype: A; physics: N; juggle: 4; ctrl: 0; velset: 0, 0; anim: 1020; sprpriority: 2;]
+
+if animElem = 2 {
+	velSet{x: 6.5}
+	hitDef{
+		attr: S, SA;
+		damage: 80, 10;
+		animtype: Hard;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 10, 10;
+		sparkxy: -10, -15;
+		hitsound: 5, 1;
+		guardsound: 6, 0;
+		ground.type: Trip;
+		ground.slidetime: 8;
+		ground.hittime: 16;
+		ground.velocity: -3, 0;
+		air.velocity: -3, -3;
+		air.hittime: 15;
+		fall: 1;
+		fall.recover: 0;
+	}
+}
+if animElemTime(3) >= 0 || moveContact {
+	velMul{x: 0.8}
+}
+if animTime = 0 {
+	velSet{x: 0}
+	changeState{value: 0; ctrl: 1}
+}
+
+#-------------------------------------------------------------------------------
+# CALA BOCA THARSYS! (tras, tras + soco alto): shouts; the words fly straight as a
+# projectile. On hit the opponent cannot use specials for 3 s (map calaboca on Vitchocas).
+[StateDef 1030; type: S; movetype: A; physics: S; ctrl: 0; velset: 0, 0; anim: 1030; sprpriority: 2;]
+
+if animElem = 2 {
+	helper{id: 1035; stateno: 1035; name: "Cala Boca"; pos: 40, -88; postype: p1; ownpal: 1; keyctrl: 0}
+}
+if animTime = 0 {
+	changeState{value: 0; ctrl: 1}
+}
+
+#-------------------------------------------------------------------------------
+# The words (helper): straight line, one hit, gone on contact or after 1.5 s
+[StateDef 1035; type: A; movetype: A; physics: N; ctrl: 0; anim: 1035; sprpriority: 3;]
+
+if time = 0 {
+	velSet{x: 5; y: 0}
+	hitDef{
+		attr: S, SP;
+		damage: 20, 3;
+		animtype: Light;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 0, 12;
+		sparkno: -1;
+		sparkxy: 0, 0;
+		hitsound: 5, 0;
+		guardsound: 6, 0;
+		ground.type: High;
+		ground.slidetime: 6;
+		ground.hittime: 14;
+		ground.velocity: -2, 0;
+		air.velocity: -2, -2;
+		air.hittime: 15;
+	}
+}
+persistent(0) if moveHit {
+	rootMapSet{map: "calaboca"; value: 180}
+}
+if moveContact || time >= 90 {
+	destroySelf{}
+}

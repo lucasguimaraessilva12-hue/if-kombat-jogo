@@ -1,0 +1,74 @@
+#===============================================================================
+# TH - specials (animations in scripts/molde.py, ESPECIAIS["th"])
+#===============================================================================
+
+#-------------------------------------------------------------------------------
+# LAG (baixo, baixo + chute baixo): freezes glitching like a lagging game,
+# vanishes and pops up behind the opponent (clamped to the screen edge).
+[StateDef 1000; type: S; movetype: I; physics: S; ctrl: 0; velset: 0, 0; anim: 1000; sprpriority: 2;]
+
+if time < 14 {
+	palFx{time: 1; add: 40, 40, 140; color: 0}
+	if time % 4 < 2 {
+		assertSpecial{flag: invisible}
+	}
+}
+if time = [14, 29] {
+	assertSpecial{flag: invisible}
+	notHitBy{value: SCA; time: 1}
+}
+if time = 18 {
+	let d = p2Dist X + 45;
+	if $d > frontEdgeDist - 15 {
+		let d = frontEdgeDist - 15;
+	}
+	posAdd{x: $d}
+}
+if time = 19 && p2Dist X < 0 {
+	turn{}
+}
+if time = [30, 37] {
+	palFx{time: 1; add: 40, 40, 140; color: 0}
+	if time % 4 < 2 {
+		assertSpecial{flag: invisible}
+	}
+}
+if time >= 44 {
+	changeState{value: 0; ctrl: 1}
+}
+
+#-------------------------------------------------------------------------------
+# CHAVE DO LAB 6! (baixo, frente + soco alto): throws the Lab 6 key, spinning.
+[StateDef 1130; type: S; movetype: A; physics: S; ctrl: 0; velset: 0, 0; anim: 1130; sprpriority: 2;]
+
+if animElem = 2 {
+	projectile{
+		projID: 1135;
+		projanim: 1135;
+		projhitanim: 1136;
+		projremanim: 1136;
+		velocity: 6, 0;
+		offset: 30, -80;
+		postype: p1;
+		projedgebound: 40;
+		projstagebound: 40;
+		attr: S, SP;
+		damage: 50, 6;
+		animtype: Medium;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 0, 10;
+		sparkxy: 0, 0;
+		hitsound: 5, 1;
+		guardsound: 6, 0;
+		ground.type: High;
+		ground.slidetime: 8;
+		ground.hittime: 14;
+		ground.velocity: -4, 0;
+		air.velocity: -3, -3;
+	}
+}
+if animTime = 0 {
+	changeState{value: 0; ctrl: 1}
+}

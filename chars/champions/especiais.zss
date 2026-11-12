@@ -1,0 +1,98 @@
+#===============================================================================
+# Champions - specials (animations in scripts/molde.py, ESPECIAIS["champions"])
+#===============================================================================
+
+#-------------------------------------------------------------------------------
+# VOO DO ORELHUDO (no pulo: baixo, frente + chute alto): glides on his ears,
+# then dives with a flying kick. physics N: landing is handled here.
+[StateDef 1040; type: A; movetype: I; physics: N; ctrl: 0; anim: 1040; sprpriority: 2;]
+
+if time = 0 {
+	velSet{x: 2.5; y: 0}
+}
+velAdd{y: 0.06}
+if time >= 22 {
+	changeState{value: 1041}
+}
+if pos y >= 0 && vel y > 0 {
+	posSet{y: 0}
+	velSet{x: 0; y: 0}
+	changeState{value: 52}
+}
+
+#-------------------------------------------------------------------------------
+[StateDef 1041; type: A; movetype: A; physics: N; juggle: 4; ctrl: 0; anim: 1041; sprpriority: 2;]
+
+if time = 0 {
+	velSet{x: 5; y: 5}
+}
+if animElem = 1 {
+	hitDef{
+		attr: A, SA;
+		damage: 85, 11;
+		animtype: Hard;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 10, 10;
+		sparkxy: -10, -40;
+		hitsound: 5, 2;
+		guardsound: 6, 0;
+		ground.type: High;
+		ground.slidetime: 8;
+		ground.hittime: 16;
+		ground.velocity: -5, -4;
+		air.velocity: -4, -4;
+		air.hittime: 15;
+		fall: 1;
+		fall.recover: 0;
+	}
+}
+# bounce back off the opponent on contact, then fall with gravity
+persistent(0) if moveContact {
+	velSet{x: -2; y: -4}
+}
+if moveContact {
+	velAdd{y: 0.45}
+}
+if pos y >= 0 && vel y > 0 {
+	posSet{y: 0}
+	velSet{x: 0; y: 0}
+	changeState{value: 52}
+}
+
+#-------------------------------------------------------------------------------
+# FOMINHA (tras, frente + chute alto): never passes the ball, kicks it at the opponent.
+[StateDef 1140; type: S; movetype: A; physics: S; ctrl: 0; velset: 0, 0; anim: 1140; sprpriority: 2;]
+
+if animElem = 2 {
+	projectile{
+		projID: 1145;
+		projanim: 1145;
+		projhitanim: 1146;
+		projremanim: 1146;
+		velocity: 6.5, 0;
+		offset: 30, -10;
+		postype: p1;
+		projedgebound: 40;
+		projstagebound: 40;
+		attr: S, SP;
+		damage: 55, 7;
+		animtype: Medium;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 0, 10;
+		sparkxy: 0, 0;
+		hitsound: 5, 1;
+		guardsound: 6, 0;
+		ground.type: Low;
+		ground.slidetime: 8;
+		ground.hittime: 14;
+		ground.velocity: -4, 0;
+		air.velocity: -3, -3;
+	}
+}
+if animTime = 0 {
+	changeState{value: 0; ctrl: 1}
+}

@@ -1,0 +1,118 @@
+#===============================================================================
+# Lukinha - specials (animations in scripts/molde.py, ESPECIAIS["lukinha"])
+#===============================================================================
+
+#-------------------------------------------------------------------------------
+# CABO SOLAR (tras, frente + soco baixo): throws a solar cable with an MC4 tip.
+# On hit the opponent is pulled in and left dizzy for a moment.
+[StateDef 1100; type: S; movetype: A; physics: S; ctrl: 0; velset: 0, 0; anim: 1100; sprpriority: 2;]
+
+if time = 4 {
+	helper{id: 1105; stateno: 1105; name: "Cabo Solar"; pos: 22, -72; postype: p1; ownpal: 1; keyctrl: 0}
+}
+if (time > 6 && numHelper(1105) = 0) || time > 70 {
+	changeState{value: 1101}
+}
+
+#-------------------------------------------------------------------------------
+[StateDef 1101; type: S; movetype: I; physics: S; ctrl: 0; velset: 0, 0; anim: 1101; sprpriority: 2;]
+
+if animTime = 0 {
+	changeState{value: 0; ctrl: 1}
+}
+
+#-------------------------------------------------------------------------------
+# The cable tip (helper). Leaves cable pieces behind it while it flies.
+[StateDef 1105; type: A; movetype: A; physics: N; ctrl: 0; anim: 1105; sprpriority: 3;]
+
+if time = 0 {
+	velSet{x: 7; y: 0}
+	hitDef{
+		attr: S, SP;
+		damage: 30, 4;
+		animtype: Medium;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 0, 10;
+		sparkxy: 0, 0;
+		hitsound: 5, 1;
+		guardsound: 6, 0;
+		ground.type: High;
+		ground.hittime: 40;
+		ground.velocity: 0, 0;
+		air.velocity: 0, 0;
+		p2stateno: 1110;
+	}
+}
+if time % 3 = 0 {
+	explod{anim: 1106; id: 1106; postype: p1; pos: -14, 0; removetime: -1; ownpal: 1; sprpriority: 2}
+}
+if moveContact || time >= 24 || (root, moveType = H) {
+	removeExplod{id: 1106}
+	destroySelf{}
+}
+
+#-------------------------------------------------------------------------------
+# Opponent pulled toward Lukinha (runs on the opponent with Lukinha's animations)
+[StateDef 1110; type: S; movetype: H; physics: N; velset: 0, 0;]
+
+if time = 0 {
+	changeAnim2{value: 1110}
+}
+velSet{x: ifelse(p2Dist X > 0, 6, -6); y: ifelse(pos y < 0, 3, 0)}
+if pos y > 0 {
+	posSet{y: 0}
+}
+if p2BodyDist X < 8 || time > 40 {
+	changeState{value: 1111}
+}
+if enemyNear, moveType = H {
+	selfState{value: 0; ctrl: 1}
+}
+
+#-------------------------------------------------------------------------------
+# Opponent dizzy after the pull (Lukinha gets a free hit)
+[StateDef 1111; type: S; movetype: H; physics: S; velset: 0, 0;]
+
+if time = 0 {
+	changeAnim2{value: 1111}
+	posSet{y: 0}
+}
+if time >= 50 {
+	selfState{value: 0; ctrl: 1}
+}
+
+#-------------------------------------------------------------------------------
+# CORTADA (no pulo: baixo, frente + soco alto): spikes a volleyball down-forward.
+[StateDef 1120; type: A; movetype: A; physics: A; ctrl: 0; anim: 1120; sprpriority: 2;]
+
+if time = 4 {
+	projectile{
+		projID: 1125;
+		projanim: 1125;
+		projhitanim: 1126;
+		projremanim: 1126;
+		velocity: 4.5, 4.5;
+		offset: 26, -70;
+		postype: p1;
+		projheightbound: -240, 1;
+		projedgebound: 40;
+		projstagebound: 40;
+		attr: A, SP;
+		damage: 60, 8;
+		animtype: Hard;
+		guardflag: MA;
+		hitflag: MAF;
+		priority: 4, Hit;
+		pausetime: 0, 10;
+		sparkxy: 0, 0;
+		hitsound: 5, 1;
+		guardsound: 6, 0;
+		ground.type: High;
+		ground.slidetime: 8;
+		ground.hittime: 16;
+		ground.velocity: -4, 0;
+		air.velocity: -3, -4;
+	}
+}

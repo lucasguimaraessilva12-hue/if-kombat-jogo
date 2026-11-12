@@ -1,0 +1,87 @@
+#===============================================================================
+# IF Kombat - molde: which command starts which move (estudo-mk2.md, section 2)
+# Order matters: a specific entry (close, back, down) must come before the
+# plain button it contains.
+# Buttons: sa = soco alto, sb = soco baixo, ca = chute alto, cb = chute baixo.
+# Guard is holding back (engine default), no button.
+#===============================================================================
+[StateDef -1]
+
+if roundState = 2 {
+
+#-------------------------------------------------------------------------------
+# Specials (per fighter, inserted by scripts/molde.py from molde/especiais/).
+# CALA BOCA THARSYS! (Vitchocas) blocks the opponent's specials while its timer runs.
+if (enemyNear, map(calaboca)) = 0 {
+if command = "BF_cb" && stateType != A && ctrl {
+	changeState{value: 1020}   # CARRINHO
+}
+if command = "BB_sa" && stateType != A && ctrl && numHelper(1035) = 0 {
+	changeState{value: 1030}   # CALA BOCA
+}
+}
+
+#-------------------------------------------------------------------------------
+# Close range (standing, opponent on the ground and not being hit)
+if stateType = S && ctrl && p2BodyDist X < 12 && p2StateType != A && p2MoveType != H &&
+	command != "holddown" {
+	if command = "sb" {
+		changeState{value: 800}   # arremesso
+	} else if command = "sa" {
+		changeState{value: 300}   # golpe de perto
+	} else if (command = "ca" || command = "cb") && command != "holdback" {
+		changeState{value: 310}   # joelhada
+	}
+}
+
+#-------------------------------------------------------------------------------
+# Back + kick
+if stateType = S && ctrl && command = "holdback" && command != "holddown" {
+	if command = "ca" {
+		changeState{value: 250}   # chute giratorio
+	} else if command = "cb" {
+		changeState{value: 260}   # rasteira
+	}
+}
+
+#-------------------------------------------------------------------------------
+# Down + button
+if stateType != A && ctrl && command = "holddown" {
+	if command = "sa" {
+		changeState{value: 410}   # uppercut
+	} else if command = "sb" {
+		changeState{value: 400}   # soco agachado
+	} else if command = "ca" {
+		changeState{value: 420}   # chute agachado
+	} else if command = "cb" {
+		changeState{value: 430}   # chute no tornozelo
+	}
+}
+
+#-------------------------------------------------------------------------------
+# Standing. Punches chain into punches after they connect (hit element = 2).
+if command != "holddown" {
+	if command = "sa" && ((stateType = S && ctrl) ||
+		((stateNo = 200 || stateNo = 210) && moveContact && animElemNo(0) > 2)) {
+		changeState{value: 200}   # soco alto
+	} else if command = "sb" && ((stateType = S && ctrl) ||
+		((stateNo = 200 || stateNo = 210) && moveContact && animElemNo(0) > 2)) {
+		changeState{value: 210}   # soco baixo
+	} else if command = "ca" && stateType = S && ctrl {
+		changeState{value: 230}   # chute alto
+	} else if command = "cb" && stateType = S && ctrl {
+		changeState{value: 240}   # chute baixo
+	}
+}
+
+#-------------------------------------------------------------------------------
+# In the air
+if stateType = A && ctrl {
+	if command = "sa" || command = "sb" {
+		changeState{value: 600}   # soco aereo
+	} else if command = "ca" || command = "cb" {
+		changeState{value: 610}   # chute aereo
+	}
+}
+
+}

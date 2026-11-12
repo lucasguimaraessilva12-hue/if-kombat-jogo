@@ -1,0 +1,29 @@
+; Caioba - IF Kombat (molde: own code, scripts/molde.py)
+[Info]
+name = "Caioba"
+displayname = "Caioba"
+versiondate = 11,10,2026
+mugenversion = 1.0
+author = "IF Kombat"
+pal.defaults = 1
+localcoord = 320,240
+
+[Files]
+cmd     = ifk.cmd
+cns     = ifk.const
+st      = ifk.zss
+st2     = comandos.zss
+st3     = especiais.zss
+stcommon = common1.cns.zss
+sprite  = caioba.sff
+anim    = caioba.air
+sound   = ifk.snd
+movelist = movelist.dat
+
+[Palette Keymap]
+x = 1
+y = 1
+z = 1
+a = 1
+b = 1
+c = 1
